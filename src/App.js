@@ -1,25 +1,49 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import data from "./data/countries.json";
+import { Switch, Route, Link} from "react-router-dom";
+import Card from './components/Card'
+import "./App.css";
+
 
 class App extends Component {
+  state = {
+    data
+  };
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div>
+          <nav className="navbar navbar-dark bg-primary mb-3">
+            <div className="container">
+              <a className="navbar-brand" href="/">
+                WikiCountries
+              </a>
+            </div>
+          </nav>
+          <div className="container">
+            <div className="row">
+              <div
+                className="col-5"
+                style={{ maxHeight: "90vh", overflow: "scroll" }}
+              >
+                <div className="list-group">
+                {this.state.data.map((country, index)=>{ return(
+                  <Link to = {country.cca3}
+                    className="list-group-item list-group-item-action"
+                    key = {index}
+                  >
+                    {country.flag} {country.name.common}
+                  </Link>
+                )})}
+                </div>
+              </div>
+              <Switch>
+                  <Route path="/:id" component={Card}/>
+              </Switch>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
